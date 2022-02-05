@@ -23,7 +23,7 @@ function checksExistsUserAccount(req, res, next) {
 }
 
 // Middleware for verify if USERNAME already exists
-function checkUserAccountAlreadyExist(req, res, next) {
+function checksUserAccountAlreadyExist(req, res, next) {
   const { username } = req.body;
   const user = users.find((user) => user.username === username);
 
@@ -33,7 +33,7 @@ function checkUserAccountAlreadyExist(req, res, next) {
 }
 
 // Middleware for verify if TODO exists
-function checkTodoExists(req, res, next) {
+function checksTodoExists(req, res, next) {
   const { id } = req.params;
   const { user } = req;
 
@@ -45,7 +45,7 @@ function checkTodoExists(req, res, next) {
 }
 
 // Create USER
-app.post("/users", checkUserAccountAlreadyExist, (req, res) => {
+app.post("/users", checksUserAccountAlreadyExist, (req, res) => {
   const { name, username } = req.body;
   const user = {
     name,
@@ -89,7 +89,7 @@ app.post("/todos", checksExistsUserAccount, (req, res) => {
 });
 
 // Update TODOS
-app.put("/todos/:id", checksExistsUserAccount, checkTodoExists, (req, res) => {
+app.put("/todos/:id", checksExistsUserAccount, checksTodoExists, (req, res) => {
   const { id } = req.params;
   const { title, deadline } = req.body;
   const { user } = req;
@@ -120,7 +120,7 @@ app.put("/todos/:id", checksExistsUserAccount, checkTodoExists, (req, res) => {
 app.patch(
   "/todos/:id/done",
   checksExistsUserAccount,
-  checkTodoExists,
+  checksTodoExists,
   (req, res) => {
     const { id } = req.params;
     const { user } = req;
@@ -150,7 +150,7 @@ app.patch(
 app.delete(
   "/todos/:id",
   checksExistsUserAccount,
-  checkTodoExists,
+  checksTodoExists,
   (req, res) => {
     const { id } = req.params;
     const { user } = req;
